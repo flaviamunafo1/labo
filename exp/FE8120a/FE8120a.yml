@@ -5,7 +5,7 @@ googlecloud:
 
 
 experiment:
-  script: "src/completo/z912_FE_desborde.r" #Es el script que invoca el experimento
+  script: "src/completo/912_FE_desborde.r" #Es el script que invoca el experimento
   restart: FALSE
   name: "exp"
   requires: [ "DT0001" ]
@@ -29,7 +29,18 @@ param:
     maximo:    FALSE
     promedio:  TRUE
     ratioavg:  FALSE
-    ratiomax:  FALSE
+    ratiomax:  FALSE #Esto lo puedo cambiar por true o false
+
+
+  tendenciaYmuchomasdos: 
+    correr: TRUE #Great power comes with great responsability
+    ventana: 12
+    tendencia: TRUE
+    minimo:    FALSE
+    maximo:    FALSE
+    promedio:  TRUE
+    ratioavg:  FALSE
+    ratiomax:  FALSE #Esto lo puedo cambiar por true o false
 
 
   #lags y sus deltas , 6 posiciones
