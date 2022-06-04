@@ -1,3 +1,59 @@
+#LIbrerias
+install.packages("Matrix")
+library(Matrix, lib.loc = "C:/Program Files/R/R-4.2.0/library")
+install.packages("Hmisc")
+library(Hmisc)
+install.packages("rlist")
+library(rlist)
+install.packages("yaml")
+library(yaml)
+install.packages("primes")
+library(primes)
+install.packages("bit64")
+library(bit64)
+install.packages("IRdisplay")
+library(IRdisplay)
+library(repr)
+install.packages("vioplot")
+library(vioplot)
+install.packages("DT")
+library(DT)
+install.packages("ROCR")
+library(ROCR)
+install.packages("R.utils")
+library(R.utils)
+install.packages("Rcpp")
+library(Rcpp)
+install.packages("devtools")
+library(devtools)
+library(ggplot2)
+install.packages("gganimate")
+library(gganimate)
+install.packages("transformr")
+library(transformr)
+install.packages("DiagrammeR")
+library(DiagrammeR)
+install.packages("data.table")
+library(data.table)
+install.packages("rpart")
+library(rpart)
+install.packages("rpart.plot")
+library(rpart.plot)
+install.packages("treeClust")
+library(treeClust)
+install.packages("ranger")
+library(ranger)
+install.packages("randomForest")
+library(randomForest)
+install.packages("xgboost")
+library(xgboost)
+install.packages("lightgbm")
+library(lightgbm)
+install.packages("DiceKriging")
+library(DiceKriging)
+install.packages("mlrMBO")
+library(mlrMBO)
+
 #Arbol elemental con libreria  rpart
 #Debe tener instaladas las librerias  data.table  ,  rpart   y rpart.plot
 
@@ -7,19 +63,19 @@ require("rpart")
 require("rpart.plot")
 
 #Aqui se debe poner la carpeta de SU computadora local
-setwd("D:\\gdrive\\ITBA2022A\\")  #Establezco el Working Directory
+setwd("/Users/flaviamunafo/Desktop/mineriadedatos/labo")  #Establezco el Working Directory
 
 #cargo los datos de 202011 que es donde voy a ENTRENAR el modelo
-dtrain  <- fread("./datasets/paquete_premium_202011.csv")
+dtrain  <- fread("/Users/flaviamunafo/Desktop/mineriadedatos/datasets/paquete_premium_202011.csv")
 
 #genero el modelo,  aqui se construye el arbol
 modelo  <- rpart("clase_ternaria ~ .",  #quiero predecir clase_ternaria a partir de el resto de las variables
                  data = dtrain,
                  xval=0,
-                 cp=        -0.3,   #esto significa no limitar la complejidad de los splits
-                 minsplit=  80,     #minima cantidad de registros para que se haga el split
-                 minbucket=  1,     #tamaño minimo de una hoja
-                 maxdepth=   4 )    #profundidad maxima del arbol
+                 cp=        -0.1,   #esto significa no limitar la complejidad de los splits
+                 minsplit=  90,     #minima cantidad de registros para que se haga el split
+                 minbucket=  4,     #tamaño minimo de una hoja
+                 maxdepth=   20)    #profundidad maxima del arbol
 
 
 #grafico el arbol
@@ -29,7 +85,7 @@ prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 #Ahora aplico al modelo  a los datos de 202101  y genero la salida para kaggle
 
 #cargo los datos de 202011, que es donde voy a APLICAR el modelo
-dapply  <- fread("./datasets/paquete_premium_202101.csv")
+dapply  <- fread("/Users/flaviamunafo/Desktop/mineriadedatos/datasets/paquete_premium_202101.csv")
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( modelo, dapply , type = "prob")
@@ -48,9 +104,9 @@ entrega  <- dapply[   , list(numero_de_cliente, Predicted) ] #genero la salida
 
 #genero el archivo para Kaggle
 #creo la carpeta donde va el experimento
-dir.create( "./labo/exp/" ) 
-dir.create( "./labo/exp/KA2001" ) 
+dir.create( "/Users/flaviamunafo/Desktop/mineriadedatos/labo/exp") 
+dir.create( "/Users/flaviamunafo/Desktop/mineriadedatos/labo/exp/KA2004" ) 
 
 fwrite( entrega, 
-        file= "./labo/exp/KA2001/K101_001.csv", 
+        file= "/Users/flaviamunafo/Desktop/mineriadedatos/labo/exp/KA2004/K200_001.csv", 
         sep= "," )
